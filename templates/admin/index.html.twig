@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Utilisateurs</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th>Birthday</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for client in users %}
+            <tr> 
+                <td>{{ client.firstname }}</td>
+                <td>{{ client.lastname }}</td>
+                <td>{{ client.birthday ? client.birthday|date('d F Y') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin-show', {'id': client.id}) }}">voir</a>
+                    <a href="{{ path('admin-edit', {'id': client.id}) }}">modifier</a>
+                    {{ include('admin/_delete.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin-new') }}">Créer</a>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte bancaire {{user.firstname}} {{user.lastname}}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-md-center mt-5">
+            <h1>Synthèse de vos comptes bancaires</h1>
+        </div>
+
+        <div class="row d-flex">
+            <div class="justify-content-start mt-5">
+                <a href="{{ path('bank-account') }}" class="btn btn-outline-info" role="button" aria-pressed="true">Créer un compte bancaire</a>
+            </div>
+
+            <div class="justify-content-end mt-5 ml-5">
+                <a href="{{ path('transaction') }}" class="btn btn-outline-info" role="button" aria-pressed="true">Virement</a>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center mt-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Type</th>
+                        <th scope="col">Numéro de compte</th>
+                        <th scope="col">Nom du titulaire</th>
+                        <th scope="col">Solde</th>
+                    </tr>
+                </thead>
+                {% for bankAccount in bankAccounts %}
+                    <tbody>
+                        <tr>
+                            <th scope="row">{{ bankAccount.type }}</th>
+                            <td>{{ bankAccount.accountNumber }}</td>
+                            <td>{{ bankAccount.lastname }} {{ bankAccount.firstname }}</td>
+                            <td>{{ bankAccount.bankBalance }}€</td>
+                        </tr>
+                    </tbody>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div class="row justify-content-md-end mt-2">
+            <a href="{{ path('app_logout') }}" class="btn btn-outline-danger" role="button" aria-pressed="true">Déconnexion</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,3 +1,43 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+home:
+  path: /
+  controller: App\Controller\DefaultController::index
+
+index:
+  path: /index
+  controller: App\Controller\AccountController::index
+
+admin-index:
+  path: /admin/user
+  controller: App\Controller\AdminController::index
+
+admin-new:
+  path: /admin/user/new
+  controller: App\Controller\AdminController::newUser
+
+admin-show:
+  path: /admin/{id}/show
+  controller: App\Controller\AdminController::showUser
+
+admin-edit:
+  path: /admin/{id}/edit
+  controller: App\Controller\AdminController::editUser
+
+admin-delete:
+  path: /admin/{id}
+  controller: App\Controller\AdminController::deleteUser
+
+account:
+  path: /compte
+  controller: App\Controller\UserAccountController::show
+
+bank-account:
+  path: /créer_compte_bancaire
+  controller: App\Controller\BankAccountController::new
+
+transaction:
+  path: /operation_bancaire
+  controller: App\Controller\TransactionController::index
+
+benificiary:
+  path: /ajout_beneficiaire
+  controller: App\Controller\BeneficiaryController::new
