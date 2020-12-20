@@ -26,7 +26,7 @@ class BankAccount
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bankAccounts", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $userId;
+    private $user;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -56,31 +56,22 @@ class BankAccount
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="debitAccount")
      */
-    private $transactions;
+    private $transactionsDebit;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Transaction", mappedBy="creditAccount")
+     */
+    private $transactionsCredit;
 
     /**
      * @ORM\Column(type="integer")
      */
     private $iban;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $transactionsDate;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $debit;
-
-    /**
-     * @ORM\Column(type="float")
-     */
-    private $credit;
-
     public function __construct()
     {
-        $this->transactions = new ArrayCollection();
+        $this->transactionsDebit = new ArrayCollection();
+        $this->transactionsCredit = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,14 +79,14 @@ class BankAccount
         return $this->id;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
-        return $this->userId;
+        return $this->user;
     }
 
-    public function setUserId(User $userId): self
+    public function setUser(User $user): self
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
@@ -163,27 +154,57 @@ class BankAccount
     /**
      * @return Collection|Transaction[]
      */
-    public function getTransactions(): Collection
+    public function getTransactionsDebit(): Collection
     {
-        return $this->transactions;
+        return $this->transactionsDebit;
     }
 
-    public function addTransaction(Transaction $transaction): self
+    public function addTransactionDebit(Transaction $transactionDebit): self
     {
-        if (!$this->transactions->contains($transaction)) {
-            $this->transactions[] = $transaction;
-            $transaction->setBankAccount($this);
+        if (!$this->transactionsDebit->contains($transactionDebit)) {
+            $this->transactionsDebit[] = $transactionDebit;
+            $transactionDebit->setBankAccount($this);
         }
 
         return $this;
     }
 
-    public function removeTransaction(Transaction $transaction): self
+    public function removeTransactionDebit(Transaction $transactionDebit): self
     {
-        if ($this->transactions->removeElement($transaction)) {
+        if ($this->transactions->removeElement($transactionDebit)) {
             // set the owning side to null (unless already changed)
-            if ($transaction->getBankAccount() === $this) {
-                $transaction->setBankAccount(null);
+            if ($transactionDebit->getBankAccount() === $this) {
+                $transactionDebit->setBankAccount(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Transaction[]
+     */
+    public function getTransactionsCredit(): Collection
+    {
+        return $this->transactionsCredit;
+    }
+
+    public function addTransactionCredit(Transaction $transactionCredit): self
+    {
+        if (!$this->transactionsCredit->contains($transactionCredit)) {
+            $this->transactionsCredit[] = $transactionCredit;
+            $transactionCredit->setBankAccount($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransactionCredit(Transaction $transactionCredit): self
+    {
+        if ($this->transactionsCredit->removeElement($transactionCredit)) {
+            // set the owning side to null (unless already changed)
+            if ($transactionCredit->getBankAccount() === $this) {
+                $transactionCredit->setBankAccount(null);
             }
         }
 
@@ -198,42 +219,6 @@ class BankAccount
     public function setIban(int $iban): self
     {
         $this->iban = $iban;
-
-        return $this;
-    }
-
-    public function getTransactionsDate(): ?\DateTimeInterface
-    {
-        return $this->transactionsDate;
-    }
-
-    public function setTransactionsDate(\DateTimeInterface $transactionsDate): self
-    {
-        $this->transactionsDate = $transactionsDate;
-
-        return $this;
-    }
-
-    public function getDebit(): ?float
-    {
-        return $this->debit;
-    }
-
-    public function setDebit(float $debit): self
-    {
-        $this->debit = $debit;
-
-        return $this;
-    }
-
-    public function getCredit(): ?float
-    {
-        return $this->credit;
-    }
-
-    public function setCredit(float $credit): self
-    {
-        $this->credit = $credit;
 
         return $this;
     }

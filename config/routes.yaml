@@ -2,10 +2,6 @@ home:
   path: /
   controller: App\Controller\DefaultController::index
 
-index:
-  path: /index
-  controller: App\Controller\AccountController::index
-
 admin-index:
   path: /admin/user
   controller: App\Controller\AdminController::index
@@ -14,25 +10,45 @@ admin-new:
   path: /admin/user/new
   controller: App\Controller\AdminController::newUser
 
+admin-new-bankAccount:
+  path: /admin/{id}/account/new
+  controller: App\Controller\AdminController::newBankAccount
+
 admin-show:
   path: /admin/{id}/show
   controller: App\Controller\AdminController::showUser
+
+admin-show-bankAccount:
+  path: /admin/compte/{id}/show
+  controller: App\Controller\AdminController::showBankAccount
 
 admin-edit:
   path: /admin/{id}/edit
   controller: App\Controller\AdminController::editUser
 
+admin-edit-bankAccount:
+  path: /admin/compte/{id}/edit
+  controller: App\Controller\AdminController::editBankAccount
+
 admin-delete:
   path: /admin/{id}
   controller: App\Controller\AdminController::deleteUser
 
+admin-delete-bankAccount:
+  path: /admin/bankAccount/{id}
+  controller: App\Controller\AdminController::deleteBankAccount
+
 account:
   path: /compte
-  controller: App\Controller\UserAccountController::show
+  controller: App\Controller\AccountController::show
 
 bank-account:
   path: /créer_compte_bancaire
   controller: App\Controller\BankAccountController::new
+
+bank-account-show:
+  path: /compte_{id}
+  controller: App\Controller\BankAccountController::show
 
 transaction:
   path: /operation_bancaire

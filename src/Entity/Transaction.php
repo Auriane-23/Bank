@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTimeInterface;
 use App\Entity\BankAccount;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\TransactionRepository;
@@ -24,14 +25,19 @@ class Transaction
     private $amount;
 
     /**
-     * @ORM\ManyToOne(targetEntity=BankAccount::class, inversedBy="transactions")
+     * @ORM\ManyToOne(targetEntity=BankAccount::class, inversedBy="transactionsDebit")
      */
     private $debitAccount;
 
     /**
-     * @ORM\ManyToOne(targetEntity=BankAccount::class, inversedBy="transactions")
+     * @ORM\ManyToOne(targetEntity=BankAccount::class, inversedBy="transactionsCredit")
      */
     private $creditAccount;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $transactionDate;
 
     public function getId(): ?int
     {
@@ -70,6 +76,18 @@ class Transaction
     public function setCreditAccount(BankAccount $creditAccount): self
     {
         $this->creditAccount = $creditAccount;
+
+        return $this;
+    }
+
+    public function getTransactionDate(): ?\DateTimeInterface
+    {
+        return $this->transactionDate;
+    }
+
+    public function setTransactionsDate(\DateTimeInterface $transactionDate): self
+    {
+        $this->transactionDate = $transactionDate;
 
         return $this;
     }

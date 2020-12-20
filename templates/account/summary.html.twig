@@ -14,7 +14,7 @@
             </div>
 
             <div class="justify-content-end mt-5 ml-5">
-                <a href="{{ path('transaction') }}" class="btn btn-outline-info" role="button" aria-pressed="true">Virement</a>
+                <a href="{{ path('transaction', {'id': user.id}) }}" class="btn btn-outline-info" role="button" aria-pressed="true">Virement</a>
             </div>
         </div>
 
@@ -32,7 +32,7 @@
                     <tbody>
                         <tr>
                             <th scope="row">{{ bankAccount.type }}</th>
-                            <td>{{ bankAccount.accountNumber }}</td>
+                            <td><a href="{{ path('bank-account-show', {'id': bankAccount.id}) }}">{{ bankAccount.accountNumber }}</a></td>
                             <td>{{ bankAccount.lastname }} {{ bankAccount.firstname }}</td>
                             <td>{{ bankAccount.bankBalance }}€</td>
                         </tr>

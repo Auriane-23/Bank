@@ -3,8 +3,9 @@
 namespace App\Entity;
 
 use App\Entity\BankAccount;
-use App\Repository\UserRepository;
+use App\Entity\Beneficiary;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -58,9 +59,15 @@ class User implements UserInterface
      */
     private $bankAccounts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=BankAccount::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $beneficiaries;
+
     public function __construct()
     {
         $this->bankAccounts = new ArrayCollection();
+        $this->beneficiaries = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -184,6 +191,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($bankAccount->getUser() === $this) {
                 $bankAccount->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Beneficiary[]
+     */
+    public function getBeneficiaries(): Collection
+    {
+        return $this->beneficiaries;
+    }
+
+    public function addBeneficiary(Beneficiary $beneficiary): self
+    {
+        if (!$this->beneficiaries->contains($beneficiary)) {
+            $this->beneficiaries[] = $beneficiary;
+            $beneficiary->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBeneficiary(Beneficiary $beneficiary): self
+    {
+        if ($this->beneficiaries->removeElement($beneficiary)) {
+            // set the owning side to null (unless already changed)
+            if ($beneficiary->getUser() === $this) {
+                $beneficiary->setUser(null);
             }
         }
 

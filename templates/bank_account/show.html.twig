@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compte{% endblock %}
+
+{% block body %}
+    <section>
+        <a href="{{ path('account') }}" class="btn btn-outline-danger mx-3 my-3" role="button" aria-pressed="true">Retour</a>
+        
+        <div class="container d-flex">
+
+            <div class="col-6 mr-2">
+                <div class="row mt-5">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Opération</th>
+                                <th scope="col">Débit</th>
+                            </tr>
+                        </thead>
+                        {% for transaction in transactionsDebit %}
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{ transaction.transactionDate ? transaction.transactionDate|date('d/m/Y à H:i') : '' }}</th>
+                                    <td>{{ transaction.creditAccount.type }} {{ transaction.creditAccount.accountNumber }}</td>
+                                    <td>- {{ transaction.amount }}€</td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-6">
+                <div class="row mt-5 ml-2">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Opération</th>
+                                <th scope="col">Crédit</th>
+                            </tr>
+                        </thead>
+                        {% for transaction in transactionsCredit %}
+                            <tbody>
+                                <tr>
+                                    <th scope="row">{{ transaction.transactionDate ? transaction.transactionDate|date('d/m/Y à H:i') : '' }}</th>
+                                    <td>{{ transaction.debitAccount.type }} {{ transaction.debitAccount.accountNumber }}</td>
+                                    <td>+ {{ transaction.amount }}€</td>
+                                </tr>
+                            </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

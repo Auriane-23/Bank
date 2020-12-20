@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('admin-delete-bankAccount', {'id': bankAccount.id}) }}" onsubmit="return confirm('êtes-vous sûr de vouloir supprimer cet article??');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ bankAccount.id) }}">
+    <button class="d-none d-sm-block btn btn-delete">Supprimer</button>
+</form>

@@ -13,7 +13,7 @@
                                     <h3 class="mb-0">Utilisateur n°{{ user.id }}</h3>
                                 </div>
                                 <div class="col-5 text-right">
-                                    <a href="{{ path('admin-edit', {'id': user.id}) }}" class="btn btn-secondary w-100" role="button" aria-pressed="true">Modifier</a>
+                                    <a href="{{ path('admin-edit', {'id': user.id}) }}" class="btn btn-outline-success w-100" role="button" aria-pressed="true">Modifier</a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +44,9 @@
                                         <div class="col-lg-4">
                                             <div class="form-group focused">
                                                 <label class="form-control-label" for="input-phone">Role</label>
-                                                <input type="text" id="input-phone" class="form-control form-control-alternative" value="" disabled>
+                                                {% for role in user.roles %}
+                                                    <input type="text" id="input-phone" class="form-control form-control-alternative" value="{{ role }}" disabled>
+                                                {% endfor %}
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
@@ -62,7 +64,7 @@
             </div>
 
             <div class="justify-content-start mt-5">
-                <a href="{{ path('bank-account') }}" class="btn btn-outline-info" role="button" aria-pressed="true">Créer un compte bancaire</a>
+                <a href="{{ path('admin-new-bankAccount', {'id': user.id }) }}" class="btn btn-outline-info" role="button" aria-pressed="true">Créer un compte bancaire</a>
             </div>
             
             <table class="table table-striped mt-5">
@@ -77,16 +79,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for bankAccount in user.bankAccounts %}
+                    {% for bankAccount in bankAccounts %}
                         <tr>
                             <th scope="row">{{ bankAccount.type }} </br></th>
-                            <td>{{ bankAccount.accountNumber }}</td>
+                            <td><a href="{{ path('admin-show-bankAccount', {'id': bankAccount.id}) }}">{{ bankAccount.accountNumber }}</a></td>
                             <td>{{ bankAccount.lastname }} {{ bankAccount.firstname }}</td>
-                            <td>{{ bankAccount.bankBalance }}</td>
+                            <td>{{ bankAccount.bankBalance }}€</td>
                             <td>{{ bankAccount.iban }}</td>
                             <td>
-                                {#<a href="{{ path('admin-edit', {'id': user.id}) }}" class="btn btn-secondary w-100" role="button" aria-pressed="true">Modifier</a>
-                                <a href="{{ path('admin-edit', {'id': user.id}) }}" class="btn btn-secondary w-100" role="button" aria-pressed="true">Supprimer</a>#}
+                                <a href="{{ path('admin-edit-bankAccount', {'id': bankAccount.id}) }}" class="btn btn-outline-success w-100" role="button" aria-pressed="true">Modifier</a>
                             </td>
                         </tr>
                     {% endfor %}

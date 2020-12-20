@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier utilisateur{% endblock %}
+
+{% block body %}
+    <h1>Modifier le n°{{bankAccount.accountNumber}}</h1>
+
+    {{ include('admin/_form_bankAccount.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('admin-index') }}">back to list</a>
+
+    {{ include('admin/_delete_bankAccount.html.twig') }}
+{% endblock %}

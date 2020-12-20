@@ -18,6 +18,12 @@ class Beneficiary
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="bankAccounts", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $firstname;
@@ -28,11 +34,6 @@ class Beneficiary
     private $lastname;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $bic;
-
-    /**
      * @ORM\Column(type="integer")
      */
     private $iban;
@@ -40,6 +41,18 @@ class Beneficiary
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getFirstname(): ?string
@@ -62,18 +75,6 @@ class Beneficiary
     public function setLastname(string $lastname): self
     {
         $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getBic(): ?string
-    {
-        return $this->bic;
-    }
-
-    public function setBic(string $bic): self
-    {
-        $this->bic = $bic;
 
         return $this;
     }

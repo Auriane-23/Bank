@@ -19,22 +19,18 @@ class BankAccountRepository extends ServiceEntityRepository
         parent::__construct($registry, BankAccount::class);
     }
 
-    // /**
-    //  * @return BankAccount[] Returns an array of BankAccount objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return BankAccount[] Returns an array of BankAccount objects
+     */
+    public function findBankAccountByUser($user)
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('b.user = :user')
+            ->setParameter('user', $user)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?BankAccount
